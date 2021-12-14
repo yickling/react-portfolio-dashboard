@@ -2,41 +2,29 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, Text } from "rebass";
 import { Flex, Box } from "reflexbox/styled-components";
+import { doc, getDoc } from "firebase/firestore"; 
+// import { useFirestoreQuery } from "../firebase/firestore";
 import Bar from "./charts/Bar";
 import Pie from "./charts/Pie";
 import Line from "./charts/Line";
 import { allocation, timeSeries } from "../constants";
 import PortfolioTable from "./PortfolioTable";
-
-const Card = styled.div`
-  color: ${(props) => props.theme.colors.primary};
-  background-color: ${(props) => props.theme.colors.cardBackground};
-  border-color: #dedfe2;
-  border-style: solid;
-  border-width: 1px;
-`;
+import { useGraph } from "../state";
+import { Container, Card } from "./elements";
+import { ChartLoader, TableLoader } from "./loading";
+import { db } from "../firebase";
+import { seedData } from "../firebase/seedHistory";
 
 const PortfolioValue = styled(Text)`
   color: ${(props) => props.theme.colors.accent};
 `;
-
-const Container = (props) => (
-  <Box
-    sx={{
-      maxWidth: '1024px',
-      mx: "auto",
-      px: 3,
-    }}
-  >
-    {props.children}
-  </Box>
-);
 
 const PeriodControlButton = styled(Button)`
   background: transparent;
   color: black !important;
   padding-left: 0.25em !important;
   padding-right: 0.25em !important;
+  font-weight: ${(props) => props.currentPeriod === props.designatedPeriod ? '600' : '400'};
 `;
 
 const GraphControlsContainer = styled.div`
@@ -49,15 +37,50 @@ const GraphControlsContainer = styled.div`
   margin-right: 0.25em;
 `;
 
-const GraphControls = (props) => (
-  <GraphControlsContainer>
-    <PeriodControlButton>1H</PeriodControlButton>
-    <PeriodControlButton>1D</PeriodControlButton>
-    <PeriodControlButton>1W</PeriodControlButton>
-    <PeriodControlButton>1M</PeriodControlButton>
-    <PeriodControlButton>1Y</PeriodControlButton>
-  </GraphControlsContainer>
-);
+const GraphControls = (props) => {
+  const graphState = useGraph()
+
+  const { updatePeriod, data: { period }} = graphState
+
+  return (
+    <GraphControlsContainer>
+      <PeriodControlButton
+        currentPeriod={period}
+        designatedPeriod="1h"
+        onClick={() => updatePeriod("1h")}
+      >
+        1H
+      </PeriodControlButton>
+      <PeriodControlButton
+        currentPeriod={period}
+        designatedPeriod="1d"
+        onClick={() => updatePeriod("1d")}
+      >
+        1D
+      </PeriodControlButton>
+      <PeriodControlButton
+        currentPeriod={period}
+        designatedPeriod="1w"
+        onClick={() => updatePeriod("1w")}
+      >
+        1W
+      </PeriodControlButton>
+      <PeriodControlButton
+        currentPeriod={period}
+        designatedPeriod="1m"
+        onClick={() => updatePeriod("1m")}
+      >
+        1M
+      </PeriodControlButton>
+      <PeriodControlButton
+        currentPeriod={period}
+        designatedPeriod="1y"
+        onClick={() => updatePeriod("1y")}
+      >
+        1Y
+      </PeriodControlButton>
+    </GraphControlsContainer>
+  );};
 
 const data = {
   data: [
@@ -137,7 +160,14 @@ const data = {
 };
 
 const SummaryPanel = () => {
-  useEffect(() => {
+  const uid = "TYudmyDwJ7rFHC7siUdw";
+
+  const [chartData, setChartData] = useState(undefined);
+  const {
+    data: { period },
+  } = useGraph();
+
+  useEffect(async () => {
     const fetchPrices = async () => {
       // const res = await fetch("https://api.coincap.io/v2/assets/?limit=5");
       // const data = await res.json();
@@ -158,36 +188,55 @@ const SummaryPanel = () => {
         ],
       });
     };
+
+    const docSnap = await getDoc(doc(db, "histories", "TYudmyDwJ7rFHC7siUdw"));
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+
     fetchPrices();
   }, []);
 
-  const [chartData, setChartData] = useState({});
+  const loading = !!!chartData;
 
   return (
     <Container>
       <Card>
         <Flex flexWrap="wrap" style={{ margin: "1.5em" }}>
-          <Box width={["100%", "25%", "25%"]} px={2}>
+          <Box width={["100%", "40%", "40%"]} px={2}>
             <Text fontSize={3}>Portfolio Balance</Text>
             <PortfolioValue fontSize={5}>$99,999.99 USD</PortfolioValue>
           </Box>
           <Box
-            width={["100%", "75%", "75%"]}
+            width={["100%", "60%", "60%"]}
             px={2}
             style={{ alignItems: "flex-end" }}
           >
             <GraphControls />
           </Box>
         </Flex>
-        <Flex flexWrap="wrap" style={{ marginLeft: "1.5em", marginRight: '1.5em', marginBottom: '1.5em' }}>
+        <Flex
+          flexWrap="wrap"
+          style={{
+            marginLeft: "1.5em",
+            marginRight: "1.5em",
+            marginBottom: "1.5em",
+          }}
+        >
           <Box width={"100%"} px={2}>
-            {/* <Bar chartData={chartData} /> */}
-            <Line chartData={timeSeries} />
+            {loading ? (
+              <ChartLoader />
+            ) : (
+              <Line chartData={timeSeries[period || "1d"]} />
+            )}
           </Box>
         </Flex>
       </Card>
       <Card style={{ marginTop: "12px" }}>
-        <PortfolioTable />
+        {loading ? <TableLoader /> : <PortfolioTable />}
       </Card>
     </Container>
   );
