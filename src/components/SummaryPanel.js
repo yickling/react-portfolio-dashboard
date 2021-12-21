@@ -13,7 +13,6 @@ import { useGraph } from "../state";
 import { Container, Card } from "./elements";
 import { ChartLoader, TableLoader } from "./loading";
 import { db } from "../firebase";
-import { seedData } from "../firebase/seedHistory";
 
 const PortfolioValue = styled(Text)`
   color: ${(props) => props.theme.colors.accent};
