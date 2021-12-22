@@ -2,17 +2,14 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, Text } from "rebass";
 import { Flex, Box } from "reflexbox/styled-components";
-import { doc, getDoc } from "firebase/firestore"; 
-// import { useFirestoreQuery } from "../firebase/firestore";
 import Bar from "./charts/Bar";
 import Pie from "./charts/Pie";
 import Line from "./charts/Line";
-import { allocation, timeSeries } from "../constants";
 import PortfolioTable from "./PortfolioTable";
 import { useGraph } from "../state";
 import { Container, Card } from "./elements";
 import { ChartLoader, TableLoader } from "./loading";
-import { db } from "../firebase";
+import { compileDataPoints } from '../proc';
 
 const PortfolioValue = styled(Text)`
   color: ${(props) => props.theme.colors.accent};
@@ -79,7 +76,8 @@ const GraphControls = (props) => {
         1Y
       </PeriodControlButton>
     </GraphControlsContainer>
-  );};
+  );
+};
 
 const data = {
   data: [
@@ -159,15 +157,33 @@ const data = {
 };
 
 const SummaryPanel = () => {
-  const uid = "TYudmyDwJ7rFHC7siUdw";
-
   const [chartData, setChartData] = useState(undefined);
+  const [compiledData, setCompiledData] = useState(undefined);
+
   const {
     data: { period },
   } = useGraph();
 
+  const timeSeries = compiledData ? {
+    labels: compiledData[period].map((r) => r.label),
+    datasets: [
+      {
+        // label: "Value",
+        data: compiledData[period].map((r) => r.v),
+        fill: false,
+        backgroundColor: "#293241",
+        borderColor: "#293241",
+        tension: 0.5,
+      },
+    ],
+  } : undefined;
+
   useEffect(async () => {
+    const dummyData = await import("../constants/dummy.json");
+    const compiled = await compileDataPoints(dummyData);
+    setCompiledData(compiled);
     const fetchPrices = async () => {
+
       // const res = await fetch("https://api.coincap.io/v2/assets/?limit=5");
       // const data = await res.json();
       setChartData({
@@ -188,18 +204,10 @@ const SummaryPanel = () => {
       });
     };
 
-    const docSnap = await getDoc(doc(db, "histories", "TYudmyDwJ7rFHC7siUdw"));
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-
     fetchPrices();
   }, []);
 
-  const loading = !!!chartData;
+  const loading = timeSeries === undefined;
 
   return (
     <Container>
@@ -226,10 +234,10 @@ const SummaryPanel = () => {
           }}
         >
           <Box width={"100%"} px={2}>
-            {loading ? (
+            {timeSeries === undefined ? (
               <ChartLoader />
             ) : (
-              <Line chartData={timeSeries[period || "1d"]} />
+              <Line chartData={timeSeries} />
             )}
           </Box>
         </Flex>

@@ -8,6 +8,7 @@ const LineStyled = styled(Line)`
 export default ({ chartData }) => {
   return (
     <LineStyled
+      redraw={true}
       data={chartData}
       options={{
         plugins: {
