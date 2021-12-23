@@ -1,4 +1,4 @@
-export default {
+const data = {
   data: [
     {
       id: "bitcoin",
@@ -74,3 +74,5 @@ export default {
   ],
   timestamp: 1634824760472,
 };
+
+export default data;

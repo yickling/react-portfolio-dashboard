@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Flex, Box } from "reflexbox/styled-components";
+import { Box } from "reflexbox/styled-components";
 import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
 
@@ -48,23 +48,27 @@ const columns = [
 function PortfolioTable() {
   const [tableData, setTableData] = useState(null);
 
-  useEffect(async () => {
-    const dummyData = await import("../constants/portfolio-dummy.json");
+  useEffect(() => {
+    async function fetchData() {
+      const dummyData = await import("../constants/portfolio-dummy.json");
+    
+      const parseData = (holdings) => {
+        const portfolio = holdings.map((h) => ({
+          ...h,
+          totalValue: h.balance * h.price,
+        }))
+        .sort((f, s) => f.totalValue > s.totalValue)
+        .map((h, index) => ({ ...h, ranking: index}))
   
-    const parseData = (holdings) => {
-      const portfolio = holdings.map((h) => ({
-        ...h,
-        totalValue: h.balance * h.price,
-      }))
-      .sort((f, s) => f.totalValue > s.totalValue)
-      .map((h, index) => ({ ...h, ranking: index}))
-
-      const sumTotal = portfolio.reduce((prev, current) => prev += current.totalValue, 0)
-      return portfolio.map(h => ({ ...h, percentage: `${(h.totalValue / sumTotal * 100).toFixed(2)}%` }));
+        const sumTotal = portfolio.reduce((prev, current) => prev += current.totalValue, 0)
+        return portfolio.map(h => ({ ...h, percentage: `${(h.totalValue / sumTotal * 100).toFixed(2)}%` }));
+      }
+  
+      setTableData(parseData(dummyData.portfolio.holdings));
     }
 
-    setTableData(parseData(dummyData.portfolio.holdings));
-  }, []);
+    fetchData();
+  }, [tableData]);
 
   return (
     <TableWrapper>

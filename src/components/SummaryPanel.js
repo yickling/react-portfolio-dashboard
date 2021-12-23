@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, Text } from "rebass";
 import { Flex, Box } from "reflexbox/styled-components";
-import Bar from "./charts/Bar";
-import Pie from "./charts/Pie";
 import Line from "./charts/Line";
 import PortfolioTable from "./PortfolioTable";
 import { useGraph } from "../state";
@@ -80,7 +78,6 @@ const GraphControls = (props) => {
 };
 
 const SummaryPanel = () => {
-  const [chartData, setChartData] = useState(undefined);
   const [compiledData, setCompiledData] = useState(undefined);
 
   const {
@@ -101,10 +98,14 @@ const SummaryPanel = () => {
     ],
   } : undefined;
 
-  useEffect(async () => {
-    const dummyData = await import("../constants/history-dummy.json");
-    const compiled = await compileDataPoints(dummyData);
-    setCompiledData(compiled);
+  useEffect(() => {
+    async function fetchData() {
+      const dummyData = await import("../constants/history-dummy.json");
+      const compiled = await compileDataPoints(dummyData);
+      setCompiledData(compiled);
+    }
+
+    fetchData()
   }, []);
 
   const loading = timeSeries === undefined;

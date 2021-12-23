@@ -1,6 +1,6 @@
 import { Bar } from "react-chartjs-2";
 
-export default ({ chartData }) => {
+const BarStyled = ({ chartData }) => {
   return (
     <div>
       <Bar
@@ -21,3 +21,5 @@ export default ({ chartData }) => {
     </div>
   );
 };
+
+export default BarStyled;

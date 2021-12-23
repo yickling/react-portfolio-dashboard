@@ -1,6 +1,6 @@
 import { Pie } from "react-chartjs-2";
 
-export default ({ chartData }) => {
+const PieStyled = ({ chartData }) => {
   return (
     <div>
       <Pie
@@ -21,3 +21,5 @@ export default ({ chartData }) => {
     </div>
   );
 };
+
+export default PieStyled;
