@@ -11,6 +11,11 @@ export default ({ chartData }) => {
       redraw={true}
       data={chartData}
       options={{
+        elements: {
+          points: {
+            radius: 0,
+          },
+        },
         plugins: {
           title: {
             display: false,

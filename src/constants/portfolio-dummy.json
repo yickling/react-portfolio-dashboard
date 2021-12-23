@@ -1,0 +1,27 @@
+{
+  "portfolio": {
+    "holdings": [
+      {
+        "name": "Bitcoin",
+        "ticker": "BTC",
+        "change24h": -0.04,
+        "price": 48323.04,
+        "balance": 2
+      },
+      {
+        "name": "Ethereum",
+        "ticker": "ETH",
+        "change24h": -0.04,
+        "price": 3982.04,
+        "balance": 3
+      },
+      {
+        "name": "US Dollars",
+        "ticker": "USD",
+        "change24h": 0,
+        "price": 1,
+        "balance": 3000
+      }
+    ]
+  }
+}
