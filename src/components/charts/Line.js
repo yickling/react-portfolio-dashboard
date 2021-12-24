@@ -5,7 +5,7 @@ const LineStyled = styled(Line)`
   margin-top: 0.5em;
 `
 
-export default ({ chartData }) => {
+const LinePortfolio = ({ chartData }) => {
   return (
     <LineStyled
       redraw={true}
@@ -48,3 +48,5 @@ export default ({ chartData }) => {
     />
   );
 };
+
+export default LinePortfolio;
