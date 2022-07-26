@@ -7,14 +7,13 @@ export const Card = styled.div`
   border-color: #dedfe2;
   border-style: solid;
   border-width: 1px;
+  border-radius: 20px;
 `;
 
 export const Container = (props) => (
   <Box
     sx={{
-      maxWidth: "1024px",
-      mx: "auto",
-      px: 3,
+      margin: '0.25rem',
     }}
   >
     {props.children}

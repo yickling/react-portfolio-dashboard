@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.5.0",
+    "@fortawesome/fontawesome-svg-core": "^6.1.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@rebass/preset": "^4.0.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -16,12 +19,14 @@
     "react-content-loader": "^6.1.0",
     "react-data-table-component": "^7.4.4",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.4.0",
     "react-intl": "^5.21.0",
     "react-scripts": "5.0.1",
     "rebass": "^4.0.7",
     "reflexbox": "^4.0.6",
     "styled-components": "^5.3.3",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "wouter": "^2.8.0-alpha.2"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",

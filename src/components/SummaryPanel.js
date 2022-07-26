@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, Text } from "rebass";
 import { Flex, Box } from "reflexbox/styled-components";
+
+import Topbar from "./elements/Topbar";
 import Line from "./charts/Line";
 import PortfolioTable from "./PortfolioTable";
 import { useGraph } from "../state";
@@ -111,42 +113,48 @@ const SummaryPanel = () => {
   const loading = timeSeries === undefined;
 
   return (
-    <Container>
-      <Card>
-        <Flex flexWrap="wrap" style={{ margin: "1.5em" }}>
-          <Box width={["100%", "40%", "40%"]} px={2}>
-            <Text fontSize={3}>Portfolio Balance</Text>
-            <PortfolioValue fontSize={5}>$99,999.99 USD</PortfolioValue>
-          </Box>
-          <Box
-            width={["100%", "60%", "60%"]}
-            px={2}
-            style={{ alignItems: "flex-end" }}
+    <div style={{ 
+      flexBasis: 0,
+      flexGrow: 999,
+    }}>
+      <Topbar />
+      <Container>
+        <Card>
+          <Flex flexWrap="wrap" style={{ margin: "1.5em" }}>
+            <Box width={["100%", "40%", "40%"]} px={2}>
+              <Text fontSize={3}>Portfolio Balance</Text>
+              <PortfolioValue fontSize={5}>$99,999.99 USD</PortfolioValue>
+            </Box>
+            <Box
+              width={["100%", "60%", "60%"]}
+              px={2}
+              style={{ alignItems: "flex-end" }}
+            >
+              <GraphControls />
+            </Box>
+          </Flex>
+          <Flex
+            flexWrap="wrap"
+            style={{
+              marginLeft: "1.5em",
+              marginRight: "1.5em",
+              marginBottom: "1.5em",
+            }}
           >
-            <GraphControls />
-          </Box>
-        </Flex>
-        <Flex
-          flexWrap="wrap"
-          style={{
-            marginLeft: "1.5em",
-            marginRight: "1.5em",
-            marginBottom: "1.5em",
-          }}
-        >
-          <Box width={"100%"} px={2}>
-            {timeSeries === undefined ? (
-              <ChartLoader />
-            ) : (
-              <Line chartData={timeSeries} />
-            )}
-          </Box>
-        </Flex>
-      </Card>
-      <Card style={{ marginTop: "12px" }}>
-        {loading ? <TableLoader /> : <PortfolioTable />}
-      </Card>
-    </Container>
+            <Box width={"100%"} px={2}>
+              {timeSeries === undefined ? (
+                <ChartLoader />
+              ) : (
+                <Line chartData={timeSeries} />
+              )}
+            </Box>
+          </Flex>
+        </Card>
+        <Card style={{ marginTop: "12px" }}>
+          {loading ? <TableLoader /> : <PortfolioTable />}
+        </Card>
+      </Container>
+    </div>
   );
 };
 
