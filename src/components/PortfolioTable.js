@@ -1,25 +1,39 @@
-import styled from "styled-components";
-import { Box } from "reflexbox/styled-components";
+// import styled from "styled-components";
+import { Flex, Box } from "reflexbox/styled-components";
 import DataTable from "react-data-table-component";
 import { useEffect, useState } from "react";
+import { Text } from "rebass";
 
-const TableWrapper = styled.div`
-  color: ${(props) => props.theme.colors.primary};
-  background-color: ${(props) => props.theme.colors.cardBackground};
-  border-color: #dedfe2;
-  border-style: solid;
-  border-width: 1px;
-  padding-left: 16px;
-  padding-top: 0.5em;
-`;
+import { Card } from "./elements";
 
-const TableHeader = styled(Box)`
-  margin-left: 16px;
-  margin-top: 0.5em;
-  padding-bottom: 0.5em;
-  // border-style: solid;
-  // border-width: 1px;
-`;
+// const TableWrapper = styled.div`
+//   color: ${(props) => props.theme.colors.primary};
+//   background-color: ${(props) => props.theme.colors.cardBackground};
+//   border-color: #dedfe2;
+// `;
+
+// const TableHeader = styled(Box)`
+// `;
+
+const customStyles = {
+  rows: {
+      style: {
+          minHeight: '72px', // override the row height
+      },
+  },
+  headCells: {
+      style: {
+          paddingLeft: '8px', // override the cell padding for head cells
+          paddingRight: '8px',
+      },
+  },
+  cells: {
+      style: {
+          paddingLeft: '8px', // override the cell padding for data cells
+          paddingRight: '8px',
+      },
+  },
+}
 
 const columns = [
   {
@@ -68,13 +82,17 @@ function PortfolioTable() {
     }
 
     fetchData();
-  }, [tableData]);
+  }, []);
 
   return (
-    <TableWrapper>
-      <TableHeader>Your Assets</TableHeader>
-      {tableData ? <DataTable columns={columns} data={tableData} /> : null}
-    </TableWrapper>
+    <Card style={{ marginTop: "12px" }}>
+      <Flex flexWrap="wrap" style={{ margin: "1.5em" }}>
+        <Box width={["100%", "100%", "100%"]} px={2}>
+          <Text fontSize={3}>Your Assets</Text>
+          {tableData ? <DataTable columns={columns} data={tableData} customStyles={customStyles} /> : null}
+        </Box>
+      </Flex>
+    </Card>
   );
 }
 

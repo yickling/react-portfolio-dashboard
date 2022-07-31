@@ -21,6 +21,13 @@
         "change24h": 0,
         "price": 1,
         "balance": 3000
+      },
+      {
+        "name": "USDC",
+        "ticker": "USDC",
+        "change24h": 0,
+        "price": 1,
+        "balance": 3000
       }
     ]
   }

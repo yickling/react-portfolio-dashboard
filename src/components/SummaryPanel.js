@@ -150,9 +150,7 @@ const SummaryPanel = () => {
             </Box>
           </Flex>
         </Card>
-        <Card style={{ marginTop: "12px" }}>
-          {loading ? <TableLoader /> : <PortfolioTable />}
-        </Card>
+        {loading ? <TableLoader /> : <PortfolioTable />}
       </Container>
     </div>
   );

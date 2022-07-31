@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'rebass';
 import { FaBars } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faHouse, faChartPie, faChartLine, faCoins, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 
 import styled from "styled-components";
 import { Link } from 'wouter';
@@ -100,15 +100,15 @@ export const NavBtnLink = styled(Link)`
 export const Logo = (props) => (<Image
   src={props.image}
   sx={{
-    width: 48,
-    height: 48,
+    width: 32,
+    height: 32,
     borderRadius: 9999,
     alignSelf: 'flex-start',
-    margin: '3rem 2rem',
+    margin: '1rem 2rem',
   }}
 />)
 
-export const MenuIcon = ({ icon }) => (<FontAwesomeIcon style={{ paddingRight: '1rem' }}icon={icon} />)
+export const MenuIcon = ({ icon }) => (<FontAwesomeIcon style={{ paddingRight: '1rem', width: '24px' }}icon={icon} />)
 
 const Sidebar = () => {
   return (
@@ -117,23 +117,20 @@ const Sidebar = () => {
 
       <NavMenu>
         <Logo image="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20"/>
-        <NavLink to='/about'>
-          <MenuIcon icon={faCoffee} />About
+        <NavLink to='/'>
+          <MenuIcon icon={faHouse} />Home
         </NavLink>
-        <NavLink to='/events'>
-          <MenuIcon icon={faCoffee} />Events
+        <NavLink to='/assets'>
+          <MenuIcon icon={faChartPie} />Assets
         </NavLink>
-        <NavLink to='/annual'>
-          <MenuIcon icon={faCoffee} />Annual Report
+        <NavLink to='/trade'>
+          <MenuIcon icon={faChartLine} />Trade
         </NavLink>
-        <NavLink to='/team'>
-          <MenuIcon icon={faCoffee} />Teams
+        <NavLink to='/pay'>
+          <MenuIcon icon={faCoins} />Pay
         </NavLink>
-        <NavLink to='/blogs'>
-          <MenuIcon icon={faCoffee} />Blogs
-        </NavLink>
-        <NavLink to='/sign-up'>
-          <MenuIcon icon={faCoffee} />Sign Up
+        <NavLink to='/more'>
+          <MenuIcon icon={faEllipsisVertical} />More
         </NavLink>
       </NavMenu>
     </Nav>
