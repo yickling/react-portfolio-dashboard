@@ -1,11 +1,11 @@
 import React from 'react';
-import { Image } from 'rebass';
 import { FaBars } from 'react-icons/fa';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse, faChartPie, faChartLine, faCoins, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 
 import styled from "styled-components";
 import { Link } from 'wouter';
+
+import { Logo, MenuIcon } from "./index";
 
 export const Nav = styled.nav`
   @media screen and (max-width: 768px) {
@@ -97,18 +97,9 @@ export const NavBtnLink = styled(Link)`
   }
 `;
 
-export const Logo = (props) => (<Image
-  src={props.image}
-  sx={{
-    width: 32,
-    height: 32,
-    borderRadius: 9999,
-    alignSelf: 'flex-start',
-    margin: '1rem 2rem',
-  }}
-/>)
 
-export const MenuIcon = ({ icon }) => (<FontAwesomeIcon style={{ paddingRight: '1rem', width: '24px' }}icon={icon} />)
+
+const SidebarMenuIcon = ({ icon, style }) => (<MenuIcon style={{ paddingRight: '1rem' }} icon={icon} />)
 
 const Sidebar = () => {
   return (
@@ -118,19 +109,19 @@ const Sidebar = () => {
       <NavMenu>
         <Logo image="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20"/>
         <NavLink to='/'>
-          <MenuIcon icon={faHouse} />Home
+          <SidebarMenuIcon icon={faHouse} />Home
         </NavLink>
         <NavLink to='/assets'>
-          <MenuIcon icon={faChartPie} />Assets
+          <SidebarMenuIcon icon={faChartPie} />Assets
         </NavLink>
         <NavLink to='/trade'>
-          <MenuIcon icon={faChartLine} />Trade
+          <SidebarMenuIcon icon={faChartLine} />Trade
         </NavLink>
         <NavLink to='/pay'>
-          <MenuIcon icon={faCoins} />Pay
+          <SidebarMenuIcon icon={faCoins} />Pay
         </NavLink>
         <NavLink to='/more'>
-          <MenuIcon icon={faEllipsisVertical} />More
+          <SidebarMenuIcon icon={faEllipsisVertical} />More
         </NavLink>
       </NavMenu>
     </Nav>
