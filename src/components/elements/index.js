@@ -32,6 +32,7 @@ export const Logo = (props) => (<Image
     borderRadius: 9999,
     alignSelf: 'flex-start',
     margin: '1rem 2rem',
+    ...props.style
   }}
 />)
 

@@ -28,6 +28,13 @@
         "change24h": 0,
         "price": 1,
         "balance": 3000
+      },
+      {
+        "name": "USDT",
+        "ticker": "USDT",
+        "change24h": 0,
+        "price": 1,
+        "balance": 3000
       }
     ]
   }

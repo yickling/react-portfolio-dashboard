@@ -23,27 +23,24 @@ export const Nav = styled.nav`
   top: 0px;
   z-index: 2;
 `;
-  
-export const NavLink = styled(Link)`
-  width: 100%;
-  color: #808080;
+
+const NavLinkContent = styled.div`
+  width: 90%;
+  color: ${(props) => props.active ? 'white' : '#808080'};
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0 1rem;
   height: 100%;
   cursor: pointer;
 
-  margin: 0.25rem;
-  padding-left: 5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-
-  &.active {
-    color: #000000;
-  }
-`;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
   
+  border-radius: 12px;
+  background-color: ${(props) => props.active ? props.theme.colors.accent : null};
+  `
+  
+
 export const Bars = styled(FaBars)`
   display: none;
   color: #808080;
@@ -65,15 +62,14 @@ export const NavMenu = styled.div`
   @media screen and (max-width: 768px) {
     display: none;
   }
+  min-width: 15rem;
 `;
   
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
   margin-right: 24px;
-  /* Third Nav */
-  /* justify-content: flex-end;
-  width: 100vw; */
+
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -99,7 +95,15 @@ export const NavBtnLink = styled(Link)`
 
 
 
-const SidebarMenuIcon = ({ icon, style }) => (<MenuIcon style={{ paddingRight: '1rem' }} icon={icon} />)
+const SidebarMenuIcon = ({ icon, style }) => (<MenuIcon style={{ padding: '1rem', marginLeft: '0.5rem', ...style }} icon={icon} />)
+
+const SidebarMenuItem = ({ icon, title, to, active }) => (
+    <Link to={to} >
+      <NavLinkContent active={active}>
+        <SidebarMenuIcon icon={icon} />{title}
+      </NavLinkContent>
+    </Link>
+)
 
 const Sidebar = () => {
   return (
@@ -107,22 +111,12 @@ const Sidebar = () => {
       <Bars />
 
       <NavMenu>
-        <Logo image="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20"/>
-        <NavLink to='/'>
-          <SidebarMenuIcon icon={faHouse} />Home
-        </NavLink>
-        <NavLink to='/assets'>
-          <SidebarMenuIcon icon={faChartPie} />Assets
-        </NavLink>
-        <NavLink to='/trade'>
-          <SidebarMenuIcon icon={faChartLine} />Trade
-        </NavLink>
-        <NavLink to='/pay'>
-          <SidebarMenuIcon icon={faCoins} />Pay
-        </NavLink>
-        <NavLink to='/more'>
-          <SidebarMenuIcon icon={faEllipsisVertical} />More
-        </NavLink>
+        <Logo image="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20" style={{ marginLeft: '2.5rem', marginBottom: '2rem'}}/>
+        <SidebarMenuItem icon={faHouse} title='Home' to='/' active />
+        <SidebarMenuItem icon={faChartPie} title='Assets' to='/assets' />
+        <SidebarMenuItem icon={faChartLine} title='Trade' to='/trade' />
+        <SidebarMenuItem icon={faCoins} title='Pay' to='/pay' />
+        <SidebarMenuItem icon={faEllipsisVertical} title='More' to='/more' />
       </NavMenu>
     </Nav>
   );

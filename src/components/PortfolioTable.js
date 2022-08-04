@@ -16,11 +16,11 @@ import { Card } from "./elements";
 // `;
 
 const customStyles = {
-  rows: {
-      style: {
-          minHeight: '72px', // override the row height
-      },
-  },
+  // rows: {
+  //     style: {
+  //         minHeight: '72px', // override the row height
+  //     },
+  // },
   headCells: {
       style: {
           paddingLeft: '8px', // override the cell padding for head cells
@@ -87,9 +87,9 @@ function PortfolioTable() {
   return (
     <Card style={{ marginTop: "12px" }}>
       <Flex flexWrap="wrap" style={{ margin: "1.5em" }}>
+        <Text fontSize={3} style={{ paddingLeft: "1rem" }}>Your Assets</Text>
         <Box width={["100%", "100%", "100%"]} px={2}>
-          <Text fontSize={3}>Your Assets</Text>
-          {tableData ? <DataTable columns={columns} data={tableData} customStyles={customStyles} /> : null}
+          {tableData ? <DataTable columns={columns} data={tableData} progressPending={tableData === null} customStyles={customStyles} /> : null}
         </Box>
       </Flex>
     </Card>

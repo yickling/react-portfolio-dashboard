@@ -6,9 +6,9 @@ import { Flex, Box } from "reflexbox/styled-components";
 import Topbar from "./elements/Topbar";
 import Line from "./charts/Line";
 import PortfolioTable from "./PortfolioTable";
-import { useGraph } from "../state";
+import { useApp } from "../state";
 import { Container, Card } from "./elements";
-import { ChartLoader, TableLoader } from "./loading";
+import { ChartLoader } from "./loading";
 import { compileDataPoints } from '../proc';
 
 const PortfolioValue = styled(Text)`
@@ -34,7 +34,7 @@ const GraphControlsContainer = styled.div`
 `;
 
 const GraphControls = (props) => {
-  const graphState = useGraph()
+  const graphState = useApp()
 
   const { updatePeriod, data: { period }} = graphState
 
@@ -84,7 +84,7 @@ const SummaryPanel = () => {
 
   const {
     data: { period },
-  } = useGraph();
+  } = useApp();
 
   const timeSeries = compiledData ? {
     labels: compiledData[period].map((r) => r.label),
@@ -109,8 +109,6 @@ const SummaryPanel = () => {
 
     fetchData()
   }, []);
-
-  const loading = timeSeries === undefined;
 
   return (
     <div style={{ 
@@ -150,8 +148,9 @@ const SummaryPanel = () => {
             </Box>
           </Flex>
         </Card>
-        {loading ? <TableLoader /> : <PortfolioTable />}
+        <PortfolioTable />
       </Container>
+      <div style={{ borderColor: '#dedfe2', borderWidth: '1px 0px 0px 0px', borderStyle: 'solid' }}><Text fontSize={1} sx={{ marginTop: '0.5rem', marginLeft: '0.5rem', marginBottom: '0.5rem' }}>© 2022 yickling@github</Text></div>
     </div>
   );
 };

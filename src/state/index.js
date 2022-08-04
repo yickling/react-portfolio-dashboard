@@ -2,13 +2,18 @@ import { createContext, useContext, useState } from "react";
 
 export const AppContext = createContext()
 
-export const useGraph = () => useContext(AppContext);
+export const useApp = () => useContext(AppContext);
 
 export const AppContextProvider = (props) => {
   const [period, setPeriod] = useState('1d')
+  const [darkMode, setDarkMode] = useState(false)
 
   const updatePeriod = (value) => {
     setPeriod(value)
+  }
+
+  const updateDarkMode = (value) => {
+    setDarkMode(value)
   }
 
   return (
@@ -16,8 +21,10 @@ export const AppContextProvider = (props) => {
       value={{
         data: {
           period,
+          darkMode,
         },
         updatePeriod,
+        updateDarkMode,
       }}
     >
       {props.children}

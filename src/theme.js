@@ -1,8 +1,17 @@
 const theme = {
-  colors: {
-    cardBackground: '#fff',
-    primary: '#5c616d',
-    accent: 'black'
+  light: {
+    colors: {
+      cardBackground: '#fff',
+      primary: '#5c616d',
+      accent: 'black'
+    },
+  },
+  dark: {
+    colors: {
+      cardBackground: '#000',
+      primary: '#fff',
+      accent: 'white'
+    },
   },
 }
 
