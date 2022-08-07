@@ -3,7 +3,7 @@ import { FaBars } from 'react-icons/fa';
 import { faHouse, faChartPie, faChartLine, faCoins, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 
 import styled from "styled-components";
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 
 import { Logo, MenuIcon } from "./index";
 
@@ -97,29 +97,34 @@ export const NavBtnLink = styled(Link)`
 
 const SidebarMenuIcon = ({ icon, style }) => (<MenuIcon style={{ padding: '1rem', marginLeft: '0.5rem', ...style }} icon={icon} />)
 
-const SidebarMenuItem = ({ icon, title, to, active }) => (
+const SidebarMenuItem = ({ icon, title, to }) => {
+  const [location] = useLocation();
+
+  const active = (location === '/' && title === 'Home') 
+    || location.substring(1, location.length).toLowerCase() === title.toLowerCase();
+
+  return (
     <Link to={to} >
       <NavLinkContent active={active}>
         <SidebarMenuIcon icon={icon} />{title}
       </NavLinkContent>
     </Link>
-)
+  )
+}
 
-const Sidebar = () => {
-  return (
-    <Nav>
-      <Bars />
+const Sidebar = () => (
+  <Nav>
+    <Bars />
 
-      <NavMenu>
-        <Logo image="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20" style={{ marginLeft: '2.5rem', marginBottom: '2rem'}}/>
-        <SidebarMenuItem icon={faHouse} title='Home' to='/' active />
-        <SidebarMenuItem icon={faChartPie} title='Assets' to='/assets' />
-        <SidebarMenuItem icon={faChartLine} title='Trade' to='/trade' />
-        <SidebarMenuItem icon={faCoins} title='Pay' to='/pay' />
-        <SidebarMenuItem icon={faEllipsisVertical} title='More' to='/more' />
-      </NavMenu>
-    </Nav>
-  );
-};
+    <NavMenu>
+      <Logo image="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20" style={{ marginLeft: '2.5rem', marginBottom: '2rem' }} />
+      <SidebarMenuItem icon={faHouse} title='Home' to='/' />
+      <SidebarMenuItem icon={faChartPie} title='Assets' to='/assets' />
+      <SidebarMenuItem icon={faChartLine} title='Trade' to='/trade' />
+      <SidebarMenuItem icon={faCoins} title='Pay' to='/pay' />
+      <SidebarMenuItem icon={faEllipsisVertical} title='More' to='/more' />
+    </NavMenu>
+  </Nav>
+);
   
 export default Sidebar;

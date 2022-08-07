@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Button, Text } from "rebass";
 import { Flex, Box } from "reflexbox/styled-components";
 
-import Topbar from "./elements/Topbar";
 import Line from "./charts/Line";
 import PortfolioTable from "./PortfolioTable";
 import { useApp } from "../state";
@@ -36,7 +35,7 @@ const GraphControlsContainer = styled.div`
 const GraphControls = (props) => {
   const graphState = useApp()
 
-  const { updatePeriod, data: { period }} = graphState
+  const { updatePeriod, data: { period } } = graphState
 
   return (
     <GraphControlsContainer>
@@ -111,47 +110,40 @@ const SummaryPanel = () => {
   }, []);
 
   return (
-    <div style={{ 
-      flexBasis: 0,
-      flexGrow: 999,
-    }}>
-      <Topbar />
-      <Container>
-        <Card>
-          <Flex flexWrap="wrap" style={{ margin: "1.5em" }}>
-            <Box width={["100%", "40%", "40%"]} px={2}>
-              <Text fontSize={3}>Portfolio Balance</Text>
-              <PortfolioValue fontSize={5}>$99,999.99 USD</PortfolioValue>
-            </Box>
-            <Box
-              width={["100%", "60%", "60%"]}
-              px={2}
-              style={{ alignItems: "flex-end" }}
-            >
-              <GraphControls />
-            </Box>
-          </Flex>
-          <Flex
-            flexWrap="wrap"
-            style={{
-              marginLeft: "1.5em",
-              marginRight: "1.5em",
-              marginBottom: "1.5em",
-            }}
+    <Container>
+      <Card>
+        <Flex flexWrap="wrap" style={{ margin: "1.5em" }}>
+          <Box width={["100%", "40%", "40%"]} px={2}>
+            <Text fontSize={3}>Portfolio Balance</Text>
+            <PortfolioValue fontSize={5}>$99,999.99 USD</PortfolioValue>
+          </Box>
+          <Box
+            width={["100%", "60%", "60%"]}
+            px={2}
+            style={{ alignItems: "flex-end" }}
           >
-            <Box width={"100%"} px={2}>
-              {timeSeries === undefined ? (
-                <ChartLoader />
-              ) : (
-                <Line chartData={timeSeries} />
-              )}
-            </Box>
-          </Flex>
-        </Card>
-        <PortfolioTable />
-      </Container>
-      <div style={{ borderColor: '#dedfe2', borderWidth: '1px 0px 0px 0px', borderStyle: 'solid' }}><Text fontSize={1} sx={{ marginTop: '0.5rem', marginLeft: '0.5rem', marginBottom: '0.5rem' }}>© 2022 yickling@github</Text></div>
-    </div>
+            <GraphControls />
+          </Box>
+        </Flex>
+        <Flex
+          flexWrap="wrap"
+          style={{
+            marginLeft: "1.5em",
+            marginRight: "1.5em",
+            marginBottom: "1.5em",
+          }}
+        >
+          <Box width={"100%"} px={2}>
+            {timeSeries === undefined ? (
+              <ChartLoader />
+            ) : (
+              <Line chartData={timeSeries} />
+            )}
+          </Box>
+        </Flex>
+      </Card>
+      <PortfolioTable />
+    </Container>
   );
 };
 

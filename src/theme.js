@@ -13,6 +13,6 @@ const theme = {
       accent: 'white'
     },
   },
-}
+};
 
 export default theme;

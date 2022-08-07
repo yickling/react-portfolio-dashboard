@@ -1,20 +1,20 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react';
 
-export const AppContext = createContext()
+export const AppContext = createContext();
 
 export const useApp = () => useContext(AppContext);
 
-export const AppContextProvider = (props) => {
-  const [period, setPeriod] = useState('1d')
-  const [darkMode, setDarkMode] = useState(false)
+export function AppContextProvider(props) {
+  const [period, setPeriod] = useState('1d');
+  const [darkMode, setDarkMode] = useState(false);
 
   const updatePeriod = (value) => {
-    setPeriod(value)
-  }
+    setPeriod(value);
+  };
 
   const updateDarkMode = (value) => {
-    setDarkMode(value)
-  }
+    setDarkMode(value);
+  };
 
   return (
     <AppContext.Provider
@@ -29,4 +29,5 @@ export const AppContextProvider = (props) => {
     >
       {props.children}
     </AppContext.Provider>
-  );};
+  );
+}
